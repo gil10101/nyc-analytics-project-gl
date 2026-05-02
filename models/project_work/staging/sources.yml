@@ -1,0 +1,176 @@
+version: 2
+sources:
+  - name: project_raw
+    description: Raw data loaded from NYC Open Data into BigQuery via Cloud Functions
+    database: gil-lu-cis9440
+    schema: project_nyc_311_raw_data
+    tables:
+      - name: project_source_nyc_311_complaints
+        description: |
+          NYC 311 service requests filtered to heat, hot water, plumbing, and paint
+          complaints handled by the Housing Preservation & Development (HPD) agency
+          with valid location information.
+          One row per service request.
+        columns:
+          - name: unique_key
+            description: Unique identifier of a 311 service request
+            tests:
+              - unique
+              - not_null
+          - name: created_date
+            description: Date the service request was created
+          - name: closed_date
+            description: Date the service request was closed
+          - name: agency
+            description: Responding agency acronym
+          - name: agency_name
+            description: Full responding agency name
+          - name: complaint_type
+            description: High level complaint category
+          - name: descriptor
+            description: Problem detail providing further information about the complaint type
+          - name: descriptor_2
+            description: Additional detail beyond descriptor, used for select complaint categories
+          - name: location_type
+            description: Type of location where complaint occurred
+          - name: incident_zip
+            description: ZIP code of the incident location
+          - name: incident_address
+            description: House number of incident address
+          - name: street_name
+            description: Street name of incident location
+          - name: city
+            description: City of incident location
+          - name: borough
+            description: Borough of incident location
+          - name: cross_street_1
+            description: First cross street near incident location
+          - name: cross_street_2
+            description: Second cross street near incident location
+          - name: intersection_street_1
+            description: First street forming intersection where incident occurred
+          - name: intersection_street_2
+            description: Second street forming intersection where incident occurred
+          - name: address_type
+            description: 'Type of address (e.g., ADDRESS, INTERSECTION, BLOCKFACE)'
+          - name: landmark
+            description: Nearby landmark or point of interest
+          - name: facility_type
+            description: Type of facility where incident occurred
+          - name: status
+            description: Status of the service request
+          - name: due_date
+            description: Expected update date from responding agency
+          - name: resolution_description
+            description: Last action taken on the complaint
+          - name: resolution_action_updated_date
+            description: Last update time from the responding agency
+          - name: community_board
+            description: NYC Community Board district number
+          - name: council_district
+            description: City council district
+          - name: police_precinct
+            description: Police precinct
+          - name: bbl
+            description: Borough Block and Lot identifier (NYC tax lot id)
+          - name: x_coordinate_state_plane
+            description: X coordinate in NY State Plane projection system (NAD 83)
+          - name: y_coordinate_state_plane
+            description: Y coordinate in NY State Plane projection system (NAD 83)
+          - name: latitude
+            description: Latitude coordinate
+          - name: longitude
+            description: Longitude coordinate
+          - name: open_data_channel_type
+            description: 'How the complaint was submitted (ONLINE, PHONE, MOBILE, etc.)'
+          - name: park_borough
+            description: Borough of park where incident occurred
+          - name: park_facility_name
+            description: Name of park facility where incident occurred
+
+      - name: project_source_nyc_pluto_data
+        description: |
+          NYC PLUTO (Primary Land Use Tax Lot Output) dataset providing
+          building and tax lot–level attributes such as year built, borough,
+          land use, and the BBL identifier.
+          One row per tax lot.
+        columns:
+          - name: bbl
+            description: Borough-Block-Lot concatenation (unique lot identifier)
+            tests:
+              - unique
+              - not_null
+          - name: borocode
+            description: '1=Manhattan, 2=Bronx, 3=Brooklyn, 4=Queens, 5=Staten Island'
+          - name: borough
+            description: 'Two-character borough code (MN, BX, BK, QN, SI)'
+          - name: block
+            description: Tax block number
+          - name: lot
+            description: Tax lot number
+          - name: address
+            description: Street address of the tax lot
+          - name: zipcode
+            description: ZIP code (stored as STRING to preserve leading zeros)
+          - name: cd
+            description: Community district number
+          - name: council
+            description: City council district
+          - name: policeprct
+            description: Police precinct
+          - name: schooldist
+            description: School district
+          - name: landmark
+            description: Individual or interior landmark designation
+          - name: histdist
+            description: Historic district name (Landmarks Preservation Commission)
+          - name: latitude
+            description: WGS 84 latitude of approximate lot location
+          - name: longitude
+            description: WGS 84 longitude of approximate lot location
+          - name: xcoord
+            description: NY State Plane X coordinate
+          - name: ycoord
+            description: NY State Plane Y coordinate
+          - name: landuse
+            description: Land use category code
+          - name: bldgclass
+            description: Building class code
+          - name: zonedist1
+            description: Primary zoning district
+          - name: numbldgs
+            description: Number of buildings on the lot
+          - name: numfloors
+            description: Number of floors in the primary building
+          - name: unitsres
+            description: Number of residential units
+          - name: unitstotal
+            description: Total number of units (residential + non-residential)
+          - name: lotarea
+            description: Total area of the lot in square feet
+          - name: bldgarea
+            description: Total building floor area in square feet
+          - name: comarea
+            description: Commercial floor area in square feet
+          - name: resarea
+            description: Residential floor area in square feet
+          - name: yearbuilt
+            description: Year the primary building was originally constructed
+          - name: yearalter1
+            description: Year of most recent alteration
+          - name: yearalter2
+            description: Year of second most recent alteration
+          - name: assesstot
+            description: Assessed total value in dollars
+          - name: builtfar
+            description: Built floor area ratio (bldgarea / lotarea)
+          - name: residfar
+            description: Maximum allowable residential FAR
+          - name: commfar
+            description: Maximum allowable commercial FAR
+          - name: splitzone
+            description: Indicates if the lot is split across zoning districts
+          - name: irrlotcode
+            description: Indicates if the lot is irregular
+          - name: zmcode
+            description: Identifies if a tax lot is on the border of two or more zoning maps
