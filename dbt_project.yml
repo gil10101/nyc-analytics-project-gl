@@ -38,3 +38,21 @@ models:
 
        dot_311:
          +materialized: table
+
+   project_work:
+     staging:
+       +materialized: table
+       +schema: project_staging
+
+     marts:
+       +materialized: table
+       +schema: project_marts
+        
+       shared:
+        +materialized: table
+
+       open_restaurant_apps:
+        +materialized: table
+
+       dot_311:
+         +materialized: table
