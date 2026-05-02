@@ -2,7 +2,7 @@
 -- One row per tax lot (BBL)
 
 WITH source AS (
-   SELECT * FROM {{ source('raw', 'project_source_nyc_pluto_data') }}
+   SELECT * FROM {{ source('project_raw', 'project_source_nyc_pluto_data') }}
 ), -- Easier to refer to the dbt reference to a long name table this way
 
 cleaned AS (
